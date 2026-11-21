@@ -3,6 +3,10 @@ import { Modal } from './Modal.jsx';
 import { MAX_PRICE } from '../utils/storage.js';
 
 const NAME_MAX_LENGTH = 100;
+const fieldInputClass =
+  'min-h-[46px] w-full rounded-none border-[3px] border-ink bg-[#fbf7ee] px-3 text-[15px] text-ink focus-visible:bg-surface focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-blue-strong aria-[invalid=true]:border-danger';
+const formButtonClass =
+  'inline-flex min-h-[46px] min-w-0 flex-1 cursor-pointer items-center justify-center rounded-none border-[3px] border-ink px-[10px] py-1.5 font-display text-[13.5px] font-bold leading-[1.2] text-ink shadow-[3px_3px_0_#171717] transition-[transform,box-shadow] duration-[90ms] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#171717] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-blue-strong';
 
 function validate(name, price) {
   const errors = {};
@@ -91,25 +95,35 @@ export function ProductFormModal({
       initialFocusRef={nameRef}
       returnFocusTo={returnFocusTo}
     >
-      <h2 className="modal__title" id="product-form-title">
+      <h2
+        className="modal__title pr-14 font-display text-[22px] font-extrabold leading-[1.2]"
+        id="product-form-title"
+      >
         {isEdit ? 'Edit Produk' : 'Tambah Produk'}
       </h2>
-      <p className="modal__desc" id="product-form-desc">
+      <p className="modal__desc mt-1.5 text-sm text-subtext" id="product-form-desc">
         {isEdit
           ? 'Perbarui informasi produk yang dipilih.'
           : 'Masukkan informasi produk baru.'}
       </p>
-      {isEdit && <p className="modal__meta">ID: {product.id}</p>}
+      {isEdit && (
+        <p className="modal__meta mt-[14px] overflow-wrap-anywhere text-xs font-bold text-subtext">
+          ID: {product.id}
+        </p>
+      )}
 
-      <form className="form" onSubmit={handleSubmit} noValidate>
-        <div className="field">
-          <label className="field__label" htmlFor="product-name">
+      <form className="form mt-5" onSubmit={handleSubmit} noValidate>
+        <div className="field mb-4 last-of-type:mb-0">
+          <label
+            className="field__label mb-1.5 block text-[13.5px] font-bold"
+            htmlFor="product-name"
+          >
             Nama Produk
           </label>
           <input
             id="product-name"
             ref={nameRef}
-            className="field__input"
+            className={`field__input ${fieldInputClass}`}
             type="text"
             value={name}
             placeholder="Contoh: Pulpen"
@@ -124,20 +138,27 @@ export function ProductFormModal({
             }}
           />
           {errors.name && (
-            <p className="field__error" id="product-name-error" role="alert">
+            <p
+              className="field__error mt-1.5 text-[13px] font-bold text-danger"
+              id="product-name-error"
+              role="alert"
+            >
               {errors.name}
             </p>
           )}
         </div>
 
-        <div className="field">
-          <label className="field__label" htmlFor="product-price">
+        <div className="field mb-4 last-of-type:mb-0">
+          <label
+            className="field__label mb-1.5 block text-[13.5px] font-bold"
+            htmlFor="product-price"
+          >
             Harga (Rp)
           </label>
           <input
             id="product-price"
             ref={priceRef}
-            className="field__input"
+            className={`field__input ${fieldInputClass}`}
             type="text"
             inputMode="numeric"
             value={price}
@@ -155,21 +176,32 @@ export function ProductFormModal({
               clearError('price');
             }}
           />
-          <p className="field__help" id="product-price-help">
+          <p className="field__help mt-1.5 text-[12.5px] text-subtext" id="product-price-help">
             Harga harus lebih dari 0.
           </p>
           {errors.price && (
-            <p className="field__error" id="product-price-error" role="alert">
+            <p
+              className="field__error mt-1.5 text-[13px] font-bold text-danger"
+              id="product-price-error"
+              role="alert"
+            >
               {errors.price}
             </p>
           )}
         </div>
 
-        <div className="modal__footer">
-          <button type="button" className="button button--ghost" onClick={onClose}>
+        <div className="modal__footer mt-6 flex gap-[10px]">
+          <button
+            type="button"
+            className={`${formButtonClass} button button--ghost bg-muted`}
+            onClick={onClose}
+          >
             Batal
           </button>
-          <button type="submit" className="button button--primary">
+          <button
+            type="submit"
+            className={`${formButtonClass} button button--primary bg-yellow shadow-action hover:shadow-[2px_2px_0_#171717]`}
+          >
             {isEdit ? 'Simpan Perubahan' : 'Simpan Produk'}
           </button>
         </div>

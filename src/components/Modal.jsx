@@ -92,7 +92,7 @@ export function Modal({
 
   return (
     <div
-      className="modal-backdrop"
+      className="modal-backdrop fixed inset-0 z-20 flex items-center justify-center overflow-y-auto bg-[rgba(23,23,23,0.55)] px-4 py-6 max-[680px]:p-4"
       onMouseDown={(event) => {
         backdropPressed.current = event.target === event.currentTarget;
       }}
@@ -104,7 +104,7 @@ export function Modal({
       }}
     >
       <div
-        className="modal"
+        className="modal relative max-h-[calc(100vh-48px)] w-full max-w-[460px] overflow-y-auto rounded-none border-[3px] border-ink bg-surface p-6 shadow-modal max-[680px]:max-h-[calc(100vh-32px)] max-[680px]:p-5"
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
@@ -114,7 +114,7 @@ export function Modal({
       >
         <button
           type="button"
-          className="modal__close"
+          className="modal__close absolute right-3 top-3 inline-flex size-11 cursor-pointer items-center justify-center rounded-none border-[3px] border-ink bg-muted p-0 text-ink shadow-[3px_3px_0_#171717] transition-[transform,box-shadow] duration-[90ms] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_#171717] focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-blue-strong"
           onClick={onClose}
           aria-label="Tutup dialog"
         >
