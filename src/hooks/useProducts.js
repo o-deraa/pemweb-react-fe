@@ -2,12 +2,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { initialProducts } from '../data/initialProducts.js';
 import { loadProducts, saveProducts } from '../utils/storage.js';
 
-function createProductId() {
-  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-    return crypto.randomUUID();
-  }
+function nextProductId(products) {
+  const highest = products.reduce((max, product) => {
+    const value = Number(product.id);
+    return Number.isInteger(value) && value > max ? value : max;
+  }, 0);
 
-  return `product-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+  return String(highest + 1);
 }
 
 export function useProducts() {
@@ -19,9 +20,10 @@ export function useProducts() {
   }, [products]);
 
   const addProduct = useCallback(({ name, price }) => {
-    const product = { id: createProductId(), name, price };
-    setProducts((current) => [...current, product]);
-    return product;
+    setProducts((current) => [
+      ...current,
+      { id: nextProductId(current), name, price },
+    ]);
   }, []);
 
   const updateProduct = useCallback((id, { name, price }) => {
